@@ -1,0 +1,62 @@
+# ============================================================================
+# .gitignore para SolarDB (Bases de Datos I - I.U. Pascual Bravo)
+# ============================================================================
+
+# Datos crudos y descargas masivas (se descargan siguiendo el README)
+data/*.sqlite
+data/*.sqlite.zst
+data/*.zip
+data/*.tar.zst
+*.sqlite
+*.sqlite.zst
+*.tar.zst
+data.zip
+
+# Archivos de datos generados en local (no se versionan en Git por límite de GitHub)
+data/telemetria_lecturas.csv
+data/registros_contexto.csv
+data/staging_*.csv
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# DBeaver y entornos IDE
+.dbeaver/
+.dbeaver-data-sources.xml
+.project
+.settings/
+.vscode/
+.idea/
+
+# Secretos y credenciales locales (Ley 1581 / Seguridad)
+*.env
+*.env.local
+*.conf.local
+*.local.json
+privado_NO_SUBIR/
+credentials.json
+pgpass.conf
+
+# Insumos locales descargados y scripts auxiliares
+support/
+init_git_repo.py
+rebuild_git.py
+*rebuild*
+
+# Logs y respaldos
+*.log
+*.bak
+*.tmp
+*.swp
+*~
+Thumbs.db
+Desktop.ini
