@@ -1,0 +1,6 @@
+# Dependencias del proceso ETL y generación de reportes
+psycopg2-binary>=2.9.9
+zstandard>=0.22.0
+reportlab>=4.0.0
+requests>=2.31.0
+tqdm>=4.66.0
