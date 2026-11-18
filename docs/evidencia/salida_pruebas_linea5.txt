@@ -1,0 +1,42 @@
+DELETE 4
+DELETE 2
+DELETE 1
+INSERT 0 1
+ alarmas_creadas_caso1 
+-----------------------
+                     0
+(1 row)
+
+INSERT 0 1
+ id | inversor_id | tipo_alarma_id | severidad |        parametro         | valor_detectado | umbral_disparado | estado |                                            mensaje_alarma                                             
+----+-------------+----------------+-----------+--------------------------+-----------------+------------------+--------+-------------------------------------------------------------------------------------------------------
+  5 |           1 |              2 | CRITICAL  | soc_bateria_pct          |            8.00 |            12.00 | ACTIVA | ¡Descarga crítica de batería! SoC alcanzó 8% (Umbral crítico: 12.00%). Riesgo de desconexión forzada.
+  6 |           1 |              3 | CRITICAL  | tension_bateria_v        |           43.20 |            44.00 | ACTIVA | Subtensión severa de batería: 43.20 V (Umbral crítico: 44.00 V). Inversor en riesgo de bloqueo.
+  7 |           1 |              7 | CRITICAL  | temperatura_inversor_1_c |           62.50 |            60.00 | ACTIVA | Sobrecalentamiento crítico de disipador/IGBTs: 62.50 °C (Umbral crítico: 60.00 °C).
+  8 |           1 |             10 | INFO      | tension_red_v            |            0.00 |            50.00 | ACTIVA | Pérdida de suministro de red pública (0.00 V). El subsistema opera en modo isla autónomo.
+(4 rows)
+
+UPDATE 1
+ id |          fecha_hora           | usuario_bd | accion | esquema_nombre |      tabla_nombre      | registro_id | diferencias | aplicacion_cliente 
+----+-------------------------------+------------+--------+----------------+------------------------+-------------+-------------+--------------------
+  6 | 2026-11-18 04:23:42.826447-05 | postgres   | UPDATE | operacion      | umbrales_configuracion | 1           |             | psql
+(1 row)
+
+DO
+ id | estado | fecha_resolucion | usuario_resolutor | comentario_resolucion 
+----+--------+------------------+-------------------+-----------------------
+  6 | ACTIVA |                  |                   | 
+(1 row)
+
+INSERT 0 1
+   id   |                              descripcion_textual                               |                 directorio_sanitizado                  |                  comando_sanitizado                   | datos_personales_anonimizados 
+--------+--------------------------------------------------------------------------------+--------------------------------------------------------+-------------------------------------------------------+-------------------------------
+ 999999 | Entrenamiento ejecutado por el usuario [CORREO_ANONIMIZADO] en el laboratorio. | [RUTA_PERSONAL_OFUSCADA]\workspace\modelo_red_neuronal | python train.py --token [OCULTO_LEY1581] --epochs 100 | t
+(1 row)
+
+DO
+ inversor_id | energia_solar_generada_kwh | energia_entregada_carga_kwh | energia_importada_red_kwh | energia_neta_bateria_kwh | total_lecturas_integradas | factor_cobertura_temporal_pct 
+-------------+----------------------------+-----------------------------+---------------------------+--------------------------+---------------------------+-------------------------------
+           1 |                     72.633 |                      92.269 |                    34.042 |                  -10.822 |                      6646 |                        100.00
+(1 row)
+

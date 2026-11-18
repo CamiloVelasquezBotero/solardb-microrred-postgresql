@@ -1,0 +1,15 @@
+{
+  "fuente": "OpenCEM v1.0.0 (Zenodo DOI 10.5281/zenodo.21436223)",
+  "total_lecturas_generadas": 1050000,
+  "inversores": [
+    1,
+    2
+  ],
+  "correcciones_modbus_corriente": 92799,
+  "nulos_detectados_y_manejados": 0,
+  "lecturas_soc_critico_alerta": 0,
+  "lecturas_temperatura_alta_alerta": 58035,
+  "lecturas_perdida_red_alerta": 2,
+  "registros_contexto_generados": 15000,
+  "rutas_contexto_sanitizadas_ley1581": 15000
+}

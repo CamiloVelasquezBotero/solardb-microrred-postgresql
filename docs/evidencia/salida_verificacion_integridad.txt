@@ -1,0 +1,19 @@
+ num_control |                                  descripcion                                  | valor_actual | valor_esperado | estado 
+-------------+-------------------------------------------------------------------------------+--------------+----------------+--------
+           1 | Volumen mínimo de telemetría cargada (>= 1,000,000)                           |      1050002 |        1000000 | OK
+           2 | Presencia de datos en ambos inversores (Inversor 1 e Inversor 2)              |            2 |              2 | OK
+           3 | Unicidad de clave temporal por inversor (Cero duplicados)                     |            0 |              0 | OK
+           4 | Volumen de registros de contexto operacional (>= 10,000)                      |        15001 |          15000 | OK
+           5 | Lecturas de telemetría sin inversor válido en catálogo (Huérfanas)            |            0 |              0 | OK
+           6 | Lecturas con Estado de Carga (SoC) fuera del rango físico 0-100%              |            0 |              0 | OK
+           7 | Lecturas con tensión de batería fuera de rango admisible                      |            0 |              0 | OK
+           8 | Lecturas con potencia solar negativa o por encima de capacidad STC            |            0 |              0 | OK
+           9 | Lecturas donde potencia activa de salida supera potencia aparente             |            0 |              0 | OK
+          10 | Lecturas con frecuencia de salida fuera de tolerancia (48 - 52 Hz)            |            0 |              0 | OK
+          11 | Registros de contexto marcados como anonimizados bajo Ley 1581                |        15001 |          15001 | OK
+          12 | Configuración completa de umbrales para los 11 tipos de alarma y 2 inversores |           22 |             22 | OK
+          13 | Alarmas registradas con clave foránea huérfana                                |            0 |              0 | OK
+          14 | Alarmas resueltas sin fecha de resolución o sin usuario resolutor             |            0 |              0 | OK
+          15 | Existencia de registros en auditoria.registro_cambios (CDC activo)            |            6 |              1 | OK
+(15 rows)
+
