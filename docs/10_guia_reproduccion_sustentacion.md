@@ -48,7 +48,7 @@ flowchart LR
 2. **Ejecución directa en DBeaver**:
    - Presionar `Alt + X` (o botón *Execute SQL Script*).
    - El script ejecuta automáticamente el comando `COPY` directo desde el motor PostgreSQL cargando los archivos `telemetria_lecturas.csv` (1,050,000 filas) y `registros_contexto.csv` (15,000 filas) en aproximadamente 15-20 segundos.
-   - *Nota*: Si la carpeta del proyecto en su equipo personal tiene otra ruta distinta a `C:/Users/Camilo/Downloads/BD_Antigravity/data/`, únicamente modifique esa ruta en las líneas 57 y 60 del archivo `04_carga_datos.sql` antes de ejecutar.
+   - *Nota*: Si la carpeta del proyecto en su equipo personal tiene otra ruta distinta a `C:/Users/Camilo/Downloads/BD_Antigravity/data`, únicamente modifique la variable `v_data_path` en el bloque `DO $$` al inicio de `04_carga_datos.sql` antes de ejecutar.
 3. Alternativamente, también se puede usar la interfaz gráfica de DBeaver: Clic derecho sobre `telemetria.lecturas` > *Import Data* > CSV.
 
 ### Paso 6: Ejecución de Consultas de Negocio
