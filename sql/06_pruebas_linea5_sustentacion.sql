@@ -16,9 +16,9 @@
 --   6. Prueba de cálculo de balance energético mediante función PL/pgSQL.
 -- ============================================================================
 
-\echo '======================================================================'
-\echo ' INICIANDO BATERÍA DE PRUEBAS DE SUSTENTACIÓN · SOLARDB LÍNEA 5       '
-\echo '======================================================================'
+-- ============================================================================
+-- INICIANDO BATERÍA DE PRUEBAS DE SUSTENTACIÓN · SOLARDB LÍNEA 5       
+-- ============================================================================
 
 -- Limpieza preventiva para garantizar idempotencia y reejecución limpia
 DELETE FROM operacion.alarmas WHERE fecha_deteccion IN ('2026-03-15 10:00:00+00', '2026-03-15 10:15:00+00');
@@ -28,7 +28,7 @@ DELETE FROM operacion.registros_contexto WHERE id = 999999;
 -- ----------------------------------------------------------------------------
 -- CASO 1: Inserción de lectura normal (Sin disparo de alarmas)
 -- ----------------------------------------------------------------------------
-\echo '\n--- CASO 1: Inserción de telemetría nominal ---'
+-- --- CASO 1: Inserción de telemetría nominal ---
 INSERT INTO telemetria.lecturas (
     inversor_id, fecha_hora, read_ts_unix,
     tension_bateria_v, corriente_bateria_a, potencia_bateria_w, soc_bateria_pct,
@@ -53,7 +53,7 @@ WHERE fecha_deteccion = '2026-03-15 10:00:00+00';
 -- ----------------------------------------------------------------------------
 -- CASO 2: Inserción de lectura crítica anómala (Disparo automático de Alarmas)
 -- ----------------------------------------------------------------------------
-\echo '\n--- CASO 2: Inserción anómala (SoC = 8%, Temp = 62.5 °C, Vbat = 43.2 V) ---'
+-- --- CASO 2: Inserción anómala (SoC = 8%, Temp = 62.5 °C, Vbat = 43.2 V) ---
 INSERT INTO telemetria.lecturas (
     inversor_id, fecha_hora, read_ts_unix,
     tension_bateria_v, corriente_bateria_a, potencia_bateria_w, soc_bateria_pct,
@@ -80,7 +80,7 @@ WHERE fecha_deteccion = '2026-03-15 10:15:00+00';
 -- ----------------------------------------------------------------------------
 -- CASO 3: Modificación de Configuración y Verificación de Auditoría CDC
 -- ----------------------------------------------------------------------------
-\echo '\n--- CASO 3: Auditoría CDC al modificar umbrales operativos ---'
+-- --- CASO 3: Auditoría CDC al modificar umbrales operativos ---
 -- Modificar un umbral en operacion.umbrales_configuracion
 UPDATE operacion.umbrales_configuracion
 SET umbral_warning = 25.00,
@@ -100,7 +100,7 @@ LIMIT 1;
 -- ----------------------------------------------------------------------------
 -- CASO 4: Procedimiento Almacenado: Gestión de Estado y Resolución de Alarma
 -- ----------------------------------------------------------------------------
-\echo '\n--- CASO 4: Resolución de alarma mediante procedimiento almacenado ---'
+-- --- CASO 4: Resolución de alarma mediante procedimiento almacenado ---
 DO $$
 DECLARE
     v_alarma_id BIGINT;
@@ -137,7 +137,7 @@ LIMIT 1;
 -- ----------------------------------------------------------------------------
 -- CASO 5: Protección de Datos Personales (Trigger Habeas Data - Ley 1581)
 -- ----------------------------------------------------------------------------
-\echo '\n--- CASO 5: Sanitización automática de datos personales en contexto ---'
+-- --- CASO 5: Sanitización automática de datos personales en contexto ---
 INSERT INTO operacion.registros_contexto (
     id, fecha_registro, fecha_inicio, fecha_fin, inversor_id,
     origen, dispositivo, tipo_tarea, descripcion_textual, payload_json
@@ -162,7 +162,7 @@ WHERE id = 999999;
 -- ----------------------------------------------------------------------------
 -- CASO 6: Prueba de Rechazo: Violación de Restricción CHECK
 -- ----------------------------------------------------------------------------
-\echo '\n--- CASO 6: Rechazo controlado de datos imposibles (CHECK Violation) ---'
+-- --- CASO 6: Rechazo controlado de datos imposibles (CHECK Violation) ---
 DO $$
 BEGIN
     INSERT INTO telemetria.lecturas (
@@ -179,13 +179,13 @@ END $$;
 -- ----------------------------------------------------------------------------
 -- CASO 7: Prueba de Función PL/pgSQL: Cálculo Numérico de Energía
 -- ----------------------------------------------------------------------------
-\echo '\n--- CASO 7: Ejecución de función de cálculo de energía (kWh) ---'
+-- --- CASO 7: Ejecución de función de cálculo de energía (kWh) ---
 SELECT * FROM telemetria.fn_calcular_energia_kwh(
     1,
     '2025-07-14 00:00:00+00',
     '2025-07-15 00:00:00+00'
 );
 
-\echo '======================================================================'
-\echo ' BATERÍA DE PRUEBAS COMPLETADA EXITOSAMENTE                           '
-\echo '======================================================================'
+-- ======================================================================
+-- BATERÍA DE PRUEBAS COMPLETADA EXITOSAMENTE                           
+-- ======================================================================
