@@ -2,6 +2,9 @@
 # .gitignore para SolarDB (Bases de Datos I - I.U. Pascual Bravo)
 # ============================================================================
 
+# Guías internas del equipo (no forman parte del repositorio académico)
+Guia_Reproduccion_Sustentacion_SolarDB_Equipo.pdf
+
 # Datos crudos y descargas masivas (se descargan siguiendo el README)
 data/*.sqlite
 data/*.sqlite.zst

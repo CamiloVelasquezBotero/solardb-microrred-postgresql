@@ -68,16 +68,30 @@ TRUNCATE staging_contexto;
 -- ----------------------------------------------------------------------------
 -- 2. COMANDOS DE CARGA MASIVA DIRECTA EN DBEAVER (COPY SERVER-SIDE)
 -- ----------------------------------------------------------------------------
--- NOTA IMPORTANTE PARA DBEAVER:
--- Puede ejecutar este script directamente con Alt + X en DBeaver.
--- Si la ruta de su proyecto en su equipo es diferente, ajuste únicamente la ruta
--- dentro de las comillas simples (recuerde usar barras normales '/' en Windows).
+-- ╔══════════════════════════════════════════════════════════════════════════╗
+-- ║  INSTRUCCIÓN: Ajuste ÚNICAMENTE la variable v_data_path de la línea 4  ║
+-- ║  del bloque DO a continuación con la ruta ABSOLUTA de la carpeta data/ ║
+-- ║  en su equipo. Use barras normales / (no backslash \).                 ║
+-- ║  Luego ejecute el script completo con Alt + X en DBeaver.              ║
+-- ╚══════════════════════════════════════════════════════════════════════════╝
 
-COPY staging_telemetria FROM 'C:/Users/Camilo/Downloads/BD_Antigravity/data/telemetria_lecturas.csv' 
-WITH (FORMAT csv, HEADER true, ENCODING 'UTF8');
+DO $$
+DECLARE
+    -- ► CAMBIE SOLO ESTA LÍNEA con la ruta a la carpeta data/ en su equipo:
+    v_data_path TEXT := 'C:/Users/Camilo/Downloads/BD_Antigravity/data';
+BEGIN
+    EXECUTE format(
+        'COPY staging_telemetria FROM %L WITH (FORMAT csv, HEADER true, ENCODING ''UTF8'')',
+        v_data_path || '/telemetria_lecturas.csv'
+    );
+    RAISE NOTICE 'Carga de telemetria completada desde: %', v_data_path || '/telemetria_lecturas.csv';
 
-COPY staging_contexto FROM 'C:/Users/Camilo/Downloads/BD_Antigravity/data/registros_contexto.csv' 
-WITH (FORMAT csv, HEADER true, ENCODING 'UTF8');
+    EXECUTE format(
+        'COPY staging_contexto FROM %L WITH (FORMAT csv, HEADER true, ENCODING ''UTF8'')',
+        v_data_path || '/registros_contexto.csv'
+    );
+    RAISE NOTICE 'Carga de contexto completada desde: %', v_data_path || '/registros_contexto.csv';
+END $$;
 
 -- ----------------------------------------------------------------------------
 -- 3. MIGRACIÓN IDEMPOTENTE A TABLAS DE PRODUCCIÓN
