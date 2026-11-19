@@ -18,8 +18,10 @@
 -- ----------------------------------------------------------------------------
 -- 1. PREPARACIÓN: TABLA TEMPORAL DE CARGA (STAGING)
 -- ----------------------------------------------------------------------------
--- El uso de una tabla staging permite validar y transformar antes de insertar en producción
-CREATE TEMP TABLE staging_telemetria (
+-- 1. PREPARACIÓN: TABLAS TEMPORALES DE CARGA (STAGING)
+-- ----------------------------------------------------------------------------
+-- El uso de tablas staging permite validar y transformar antes de insertar en producción.
+CREATE TEMP TABLE IF NOT EXISTS staging_telemetria (
     inversor_id INT,
     fecha_hora TIMESTAMPTZ,
     read_ts_unix NUMERIC(16,6),
@@ -46,7 +48,7 @@ CREATE TEMP TABLE staging_telemetria (
     temperatura_ambiente_c NUMERIC(5,2)
 );
 
-CREATE TEMP TABLE staging_contexto (
+CREATE TEMP TABLE IF NOT EXISTS staging_contexto (
     id BIGINT,
     fecha_registro TIMESTAMPTZ,
     fecha_inicio TIMESTAMPTZ,
@@ -59,20 +61,23 @@ CREATE TEMP TABLE staging_contexto (
     payload_json JSONB
 );
 
--- ----------------------------------------------------------------------------
--- 2. COMANDOS DE CARGA MASIVA (\copy desde psql o DBeaver)
--- ----------------------------------------------------------------------------
--- NOTA PARA DBEAVER / PSQL:
--- En psql, ejecute los siguientes comandos (ajuste la ruta absoluta de sus archivos si difiere):
-/*
-\copy staging_telemetria FROM 'C:/Users/Camilo/Downloads/BD_Antigravity/data/telemetria_lecturas.csv' WITH (FORMAT csv, HEADER true, ENCODING 'UTF8');
+-- Limpiar tablas temporales por si se ejecuta varias veces en la misma sesión
+TRUNCATE staging_telemetria;
+TRUNCATE staging_contexto;
 
-\copy staging_contexto FROM 'C:/Users/Camilo/Downloads/BD_Antigravity/data/registros_contexto.csv' WITH (FORMAT csv, HEADER true, ENCODING 'UTF8');
-*/
+-- ----------------------------------------------------------------------------
+-- 2. COMANDOS DE CARGA MASIVA DIRECTA EN DBEAVER (COPY SERVER-SIDE)
+-- ----------------------------------------------------------------------------
+-- NOTA IMPORTANTE PARA DBEAVER:
+-- Puede ejecutar este script directamente con Alt + X en DBeaver.
+-- Si la ruta de su proyecto en su equipo es diferente, ajuste únicamente la ruta
+-- dentro de las comillas simples (recuerde usar barras normales '/' en Windows).
 
--- Para entornos donde el motor PostgreSQL tiene permisos de lectura directa en disco del servidor:
--- COPY staging_telemetria FROM 'C:/Users/Camilo/Downloads/BD_Antigravity/data/telemetria_lecturas.csv' WITH (FORMAT csv, HEADER true, ENCODING 'UTF8');
--- COPY staging_contexto FROM 'C:/Users/Camilo/Downloads/BD_Antigravity/data/registros_contexto.csv' WITH (FORMAT csv, HEADER true, ENCODING 'UTF8');
+COPY staging_telemetria FROM 'C:/Users/Camilo/Downloads/BD_Antigravity/data/telemetria_lecturas.csv' 
+WITH (FORMAT csv, HEADER true, ENCODING 'UTF8');
+
+COPY staging_contexto FROM 'C:/Users/Camilo/Downloads/BD_Antigravity/data/registros_contexto.csv' 
+WITH (FORMAT csv, HEADER true, ENCODING 'UTF8');
 
 -- ----------------------------------------------------------------------------
 -- 3. MIGRACIÓN IDEMPOTENTE A TABLAS DE PRODUCCIÓN

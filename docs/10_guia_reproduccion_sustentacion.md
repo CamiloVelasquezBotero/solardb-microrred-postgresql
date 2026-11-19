@@ -44,14 +44,12 @@ flowchart LR
 2. Se compilan las funciones PL/pgSQL, triggers activos de alarmas, auditoría CDC y Habeas Data, y los procedimientos almacenados de gestión.
 
 ### Paso 5: Carga Masiva de Telemetría (> 1,000,000 Lecturas)
-1. Abrir y ejecutar `sql/04_carga_datos.sql`.
-2. Para cargar el archivo generado en `data/telemetria_lecturas.csv`:
-   - **Opción DBeaver GUI**: Clic derecho sobre la tabla `telemetria.lecturas` > *Import Data* > Seleccionar CSV > Mapear columnas > Proceder.
-   - **Opción Terminal / psql**:
-     ```bash
-     psql -U postgres -d solardb -c "\copy telemetria.lecturas(inversor_id, fecha_hora, read_ts_unix, tension_bateria_v, corriente_bateria_a, potencia_bateria_w, soc_bateria_pct, tension_pv_v, corriente_pv_a, potencia_pv_w, tension_salida_v, corriente_salida_a, frecuencia_salida_hz, potencia_activa_salida_w, potencia_aparente_salida_va, porcentaje_carga_pct, tension_red_v, corriente_red_a, frecuencia_red_hz, potencia_red_w, temperatura_inversor_1_c, temperatura_inversor_2_c, temperatura_bateria_c, temperatura_ambiente_c) FROM 'c:/Users/Camilo/Downloads/BD_Antigravity/data/telemetria_lecturas.csv' WITH (FORMAT csv, HEADER true);"
-     ```
-   - Repetir para `operacion.registros_contexto` con `data/registros_contexto.csv`.
+1. Abrir en DBeaver el archivo `sql/04_carga_datos.sql`.
+2. **Ejecución directa en DBeaver**:
+   - Presionar `Alt + X` (o botón *Execute SQL Script*).
+   - El script ejecuta automáticamente el comando `COPY` directo desde el motor PostgreSQL cargando los archivos `telemetria_lecturas.csv` (1,050,000 filas) y `registros_contexto.csv` (15,000 filas) en aproximadamente 15-20 segundos.
+   - *Nota*: Si la carpeta del proyecto en su equipo personal tiene otra ruta distinta a `C:/Users/Camilo/Downloads/BD_Antigravity/data/`, únicamente modifique esa ruta en las líneas 57 y 60 del archivo `04_carga_datos.sql` antes de ejecutar.
+3. Alternativamente, también se puede usar la interfaz gráfica de DBeaver: Clic derecho sobre `telemetria.lecturas` > *Import Data* > CSV.
 
 ### Paso 6: Ejecución de Consultas de Negocio
 1. Abrir y ejecutar `sql/05_consultas_negocio.sql`.
